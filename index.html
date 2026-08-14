@@ -1,16 +1,181 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaiser1c</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GARDAN — Personal Hairstylist</title>
+<meta name="description" content="Daniel Garcia — cabeleireiro e colorista pessoal. Cortes e coloração personalizada em atendimento à domicílio, em Brasília.">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <h1>Olá, eu sou João Daniel</h1>
-    <p>Estudante de Análise e Desenvolvimento de Sistemas.</p>
 
-    <h2>Projetos</h2>
-    <p>Em breve...</p>
+<div class="grain" aria-hidden="true"></div>
+
+<nav class="topnav" id="topnav">
+  <a class="topnav__mark" href="#top">GARDAN</a>
+  <div class="topnav__links">
+    <a href="#servicos">Serviços</a>
+    <a href="#contato">Contato</a>
+    <a href="#curriculo">Currículo</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero__vine" aria-hidden="true">
+    <svg viewBox="0 0 220 620" fill="none" xmlns="http://www.w3.org/2000/svg" class="vine-svg">
+      <path class="vine-path" d="M40 10 C 10 60, 60 100, 30 150 C 0 200, 55 240, 35 300 C 15 360, 70 400, 45 460 C 20 520, 65 560, 50 610" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round"/>
+      <g class="vine-leaves" stroke="var(--ink)" stroke-width="1.1" fill="none">
+        <path d="M34 70 C 55 55, 78 60, 88 40 C 72 50, 55 52, 34 70 Z"/>
+        <path d="M28 140 C 5 128, -14 132, -22 110 C -6 122, 10 126, 28 140 Z"/>
+        <path d="M38 210 C 62 198, 84 202, 96 180 C 78 190, 60 194, 38 210 Z"/>
+        <path d="M40 320 C 16 308, -4 312, -14 288 C 2 300, 20 306, 40 320 Z"/>
+        <path d="M52 430 C 76 418, 98 422, 110 400 C 92 410, 74 414, 52 430 Z"/>
+        <path d="M42 520 C 18 508, -2 512, -12 488 C 4 500, 22 506, 42 520 Z"/>
+      </g>
+    </svg>
+  </div>
+
+  <p class="hero__eyebrow">Brasília · Atendimento personalizado</p>
+  <h1 class="hero__mark">GARDAN</h1>
+  <p class="hero__tagline">Personal Hairstylist</p>
+  <p class="hero__lede">Corte e coloração autoral, pensados para cada fio — <span>por Daniel Garcia.</span></p>
+  <a class="hero__cta" href="#contato">Agendar horário ↓</a>
+</header>
+
+<main>
+
+<section id="servicos" class="menu reveal">
+  <span class="menu__ornament" aria-hidden="true">❧</span>
+  <h2 class="menu__title">Menu</h2>
+
+  <div class="menu__grid">
+    <div class="menu__group">
+      <h3>Corte Personalizado</h3>
+      <ul class="menu__list">
+        <li><span>Masculino</span><i></i><b>150</b></li>
+        <li><span>Feminino</span><i></i><b>200</b></li>
+        <li><span>Modelagem</span><i></i><b>75</b></li>
+      </ul>
+    </div>
+
+    <div class="menu__group">
+      <h3>Cor Personalizada</h3>
+      <ul class="menu__list">
+        <li><span>Retoque de raiz</span><i></i><b>220</b></li>
+        <li><span>Mechas castanho</span><i></i><b>500</b></li>
+        <li><span>Mechas loiro</span><i></i><b>600</b></li>
+        <li><span>Ruivo</span><i></i><b>500</b></li>
+        <li><span>Correção de cor</span><i></i><b class="b--text">a combinar</b></li>
+      </ul>
+    </div>
+  </div>
+  <p class="menu__note">Valores de referência. Consultas de coloração são sempre avaliadas antes do orçamento final.</p>
+</section>
+
+<section id="contato" class="contact reveal">
+  <span class="menu__ornament" aria-hidden="true">❧</span>
+  <h2 class="menu__title">Vamos conversar</h2>
+  <p class="contact__lede">Toque em uma opção abaixo — você será direcionado direto para o app.</p>
+
+  <div class="contact__grid">
+    <a class="contact__card" href="https://wa.me/5561981369484" target="_blank" rel="noopener">
+      <svg class="contact__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.5 11.5a8.5 8.5 0 1 1-15.9-4.2L3 20l12.9-1.5A8.5 8.5 0 0 1 20.5 11.5Z" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 8.7c.2-.5.5-.5.8-.5h.6c.2 0 .4 0 .6.4.2.4.6 1.5.7 1.6.1.1.1.3 0 .5-.1.2-.2.3-.4.5-.2.2-.4.4-.2.7.2.4.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1.2.1 1.5.7 1.8.8.3.1.4.2.5.3.1.2.1.9-.2 1.7-.3.8-1.6 1.5-2.2 1.6-.6.1-1.2.2-3.9-1.1-3.3-1.6-5.3-5-5.5-5.2-.2-.2-1.3-1.7-1.3-3.3 0-1.6.8-2.3 1.1-2.7Z"/></svg>
+      <span class="contact__label">WhatsApp</span>
+      <span class="contact__value">(61) 9 8136-9484</span>
+    </a>
+
+    <a class="contact__card" href="tel:+5561981369484">
+      <svg class="contact__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1v3.5c0 .6-.4 1-1 1C10.6 21.1 2.9 13.4 2.9 3.9c0-.6.4-1 1-1H7.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1L6.6 10.8Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="contact__label">Telefone</span>
+      <span class="contact__value">(61) 9 8136-9484</span>
+    </a>
+
+    <a class="contact__card" href="https://instagram.com/jdanielhair" target="_blank" rel="noopener">
+      <svg class="contact__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+      <span class="contact__label">Instagram</span>
+      <span class="contact__value">@jdanielhair</span>
+    </a>
+  </div>
+</section>
+
+<section id="curriculo" class="resume reveal">
+  <span class="menu__ornament" aria-hidden="true">❧</span>
+  <h2 class="menu__title">Currículo</h2>
+  <span class="resume__badge">Aberto a novas oportunidades</span>
+
+  <p class="resume__bio">
+    Daniel Garcia. Atuo entre dois mundos que se completam: a precisão técnica de rotinas administrativas
+    e documentais, e a sensibilidade estética do trabalho como colorista. Tenho facilidade para organizar
+    processos, aprender sistemas novos e lidar diretamente com o público — seja em um balcão de despachante,
+    seja na cadeira do salão.
+  </p>
+
+  <div class="resume__grid">
+    <div class="resume__col">
+      <h3>Experiência</h3>
+      <ol class="timeline">
+        <li>
+          <p class="timeline__role">Assistente de Despachante</p>
+          <p class="timeline__org">Grupo Jorlan · desde 05/2026</p>
+          <p class="timeline__desc">Documentação e processos de transferência veicular, rotinas de DETRAN e cartório.</p>
+        </li>
+        <li>
+          <p class="timeline__role">Cabeleireiro &amp; Colorista</p>
+          <p class="timeline__org">Atuação autônoma · Gardan</p>
+          <p class="timeline__desc">Corte e coloração personalizada em atendimento direto ao cliente.</p>
+        </li>
+        <li>
+          <p class="timeline__role">Suporte administrativo em licitações</p>
+          <p class="timeline__org">Ágora Licitações</p>
+          <p class="timeline__desc">Processos de licitação pública via Comprasnet e PNCP.</p>
+        </li>
+        <li>
+          <p class="timeline__role">Exército Brasileiro</p>
+          <p class="timeline__org">DFPC</p>
+          <p class="timeline__desc">Rotinas administrativas em ambiente militar.</p>
+        </li>
+      </ol>
+    </div>
+
+    <div class="resume__col">
+      <h3>Formação</h3>
+      <ol class="timeline">
+        <li>
+          <p class="timeline__role">Gestão Comercial</p>
+          <p class="timeline__org">UCB</p>
+        </li>
+      </ol>
+
+      <h3 class="resume__gap">Competências</h3>
+      <ul class="skills">
+        <li>Colorimetria capilar (Igora Royal &amp; Wella)</li>
+        <li>Atendimento e organização de agenda</li>
+        <li>Rotinas de DETRAN e cartório</li>
+        <li>Licitações públicas (Comprasnet, PNCP)</li>
+        <li>Excel avançado e controle de processos</li>
+        <li>Automação de rotinas (Python)</li>
+        <li>Inglês — leitura e compreensão avançadas</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p class="footer__mark">GARDAN</p>
+  <div class="footer__links">
+    <a href="https://wa.me/5561981369484" target="_blank" rel="noopener">WhatsApp</a>
+    <a href="tel:+5561981369484">(61) 9 8136-9484</a>
+    <a href="https://instagram.com/jdanielhair" target="_blank" rel="noopener">@jdanielhair</a>
+  </div>
+  <p class="footer__meta">Brasília, DF · <span id="year"></span></p>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
