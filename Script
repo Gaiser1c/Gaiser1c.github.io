@@ -1,0 +1,24 @@
+// Nav background on scroll
+const topnav = document.getElementById('topnav');
+const onScroll = () => {
+  if (window.scrollY > 40) topnav.classList.add('is-scrolled');
+  else topnav.classList.remove('is-scrolled');
+};
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// Reveal sections on scroll
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+revealEls.forEach((el) => io.observe(el));
+
+// Footer year
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
