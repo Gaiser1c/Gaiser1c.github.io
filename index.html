@@ -4,24 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GARDAN — Personal Hairstylist</title>
-<meta name="description" content="Daniel Garcia — cabeleireiro e colorista pessoal. Menu de serviços e currículo.">
+<meta name="description" content="Daniel Garcia — cabeleireiro e colorista pessoal. Cortes e coloração personalizada em atendimento à domicílio, em Brasília.">
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+/* =========================================================
+   GARDAN — Personal Hairstylist
+   Design tokens
+   ========================================================= */
 :root{
   --bg: #EBE7E5;
   --paper: #F5F2EE;
   --ink: #2B2925;
   --ink-soft: #6b665e;
-  --line: rgba(43, 41, 37, 0.18);
+  --line: rgba(43, 41, 37, 0.16);
   --accent: #8A6A46;
   --accent-soft: #C9BBA4;
+
   --display: 'Playfair Display', serif;
   --sans: 'Jost', sans-serif;
+
+  --gutter: clamp(24px, 6vw, 96px);
+  --measure: 720px;
 }
+
 *{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+
 body{
   margin: 0;
   background: var(--bg);
@@ -31,9 +42,16 @@ body{
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
-a{ color: inherit; }
-h1, h2, h3{ font-family: var(--display); font-weight: 700; margin: 0; }
 
+a{ color: inherit; }
+
+h1, h2, h3{
+  font-family: var(--display);
+  font-weight: 700;
+  margin: 0;
+}
+
+/* subtle paper grain so the flat taupe doesn't feel like a template default */
 .grain{
   position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .5;
   background-image: radial-gradient(rgba(43,41,37,0.05) 1px, transparent 1px);
@@ -41,204 +59,426 @@ h1, h2, h3{ font-family: var(--display); font-weight: 700; margin: 0; }
   mix-blend-mode: multiply;
 }
 
-/* ============ Page shell — proportioned like a printed menu card ============ */
-.page{
+/* =========================================================
+   Nav
+   ========================================================= */
+.topnav{
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px var(--gutter);
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  background: transparent;
+  transition: background .4s ease, padding .4s ease, box-shadow .4s ease;
+}
+.topnav.is-scrolled{
+  background: rgba(235,231,229,0.86);
+  backdrop-filter: blur(8px);
+  padding-top: 14px; padding-bottom: 14px;
+  box-shadow: 0 1px 0 var(--line);
+}
+.topnav__mark{
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: .28em;
+  text-decoration: none;
+}
+.topnav__links{ display: flex; gap: 28px; }
+.topnav__links a{
+  text-decoration: none;
+  color: var(--ink-soft);
   position: relative;
-  max-width: 620px;
-  margin: 0 auto;
-  padding: 90px 36px 100px;
-  z-index: 1;
+  padding-bottom: 3px;
+}
+.topnav__links a::after{
+  content: ''; position: absolute; left: 0; right: 100%; bottom: 0; height: 1px;
+  background: var(--accent);
+  transition: right .3s ease;
+}
+.topnav__links a:hover::after,
+.topnav__links a:focus-visible::after{ right: 0; }
+@media (max-width: 560px){ .topnav__links{ display: none; } }
+
+/* =========================================================
+   Hero
+   ========================================================= */
+.hero{
+  position: relative;
+  min-height: 100svh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 120px var(--gutter) 80px;
+  overflow: hidden;
 }
 
-/* vine ornament, echoing the original PDF's botanical line art */
-.vine{
+.hero__vine{
   position: absolute;
-  top: -10px; left: -150px;
-  width: 170px;
+  top: 6%; left: clamp(-40px, 4vw, 40px);
+  width: clamp(110px, 16vw, 220px);
   opacity: .55;
-  pointer-events: none;
 }
-.vine svg{ width: 100%; height: auto; }
+.vine-svg{ width: 100%; height: auto; }
 .vine-path{
-  fill: none; stroke: var(--ink); stroke-width: 1.4; stroke-linecap: round;
-  stroke-dasharray: 760; stroke-dashoffset: 760;
-  animation: draw 2.4s .2s ease forwards;
+  fill: none;
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  animation: draw 2.6s 0.3s ease forwards;
 }
 .vine-leaves path{
-  stroke: var(--ink); stroke-width: 1.1; fill: none;
-  opacity: 0; animation: fadeLeaf .8s ease forwards;
+  opacity: 0;
+  animation: fadeLeaf 1s ease forwards;
 }
-.vine-leaves path:nth-child(1){ animation-delay: .6s; }
-.vine-leaves path:nth-child(2){ animation-delay: .9s; }
-.vine-leaves path:nth-child(3){ animation-delay: 1.2s; }
-.vine-leaves path:nth-child(4){ animation-delay: 1.5s; }
+.vine-leaves path:nth-child(1){ animation-delay: .7s; }
+.vine-leaves path:nth-child(2){ animation-delay: 1.05s; }
+.vine-leaves path:nth-child(3){ animation-delay: 1.4s; }
+.vine-leaves path:nth-child(4){ animation-delay: 1.75s; }
+.vine-leaves path:nth-child(5){ animation-delay: 2.1s; }
+.vine-leaves path:nth-child(6){ animation-delay: 2.45s; }
+
 @keyframes draw{ to{ stroke-dashoffset: 0; } }
 @keyframes fadeLeaf{ to{ opacity: .6; } }
-.sprig{ display: block; text-align: center; font-size: 20px; color: var(--accent); margin: 0 0 10px; }
-@media (max-width: 760px){ .vine{ display: none; } }
 
-/* ============ Header, replicating the PDF cover ============ */
-.masthead{ text-align: center; margin-bottom: 64px; }
-.masthead__mark{
-  font-size: clamp(42px, 9vw, 60px);
-  letter-spacing: .2em;
-}
-.masthead__tagline{
-  margin: 10px 0 0;
-  font-size: 13px;
-  letter-spacing: .34em;
+.hero__eyebrow{
+  margin: 0 0 18px;
+  font-size: 12px;
+  letter-spacing: .22em;
   text-transform: uppercase;
   color: var(--ink-soft);
 }
-
-/* ============ Menu, styled like the printed price list ============ */
-.menu-title{
-  font-size: clamp(34px, 7vw, 44px);
-  text-align: center;
-  margin-bottom: 44px;
-}
-.menu-block{ margin-bottom: 34px; }
-.menu-block h3{
-  font-family: var(--sans);
-  font-weight: 500;
-  font-size: 13px;
+.hero__mark{
+  font-size: clamp(56px, 12vw, 128px);
   letter-spacing: .18em;
+  line-height: 1;
+}
+.hero__tagline{
+  margin: 14px 0 0;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(14px, 2vw, 18px);
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.hero__lede{
+  margin: 40px 0 0;
+  max-width: 480px;
+  font-size: 17px;
+  color: var(--ink-soft);
+}
+.hero__lede span{ color: var(--ink); font-style: italic; font-family: var(--display); }
+
+.hero__cta{
+  margin-top: 48px;
+  display: inline-block;
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--ink);
-  margin-bottom: 4px;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 4px;
+  transition: opacity .3s ease;
 }
-.menu-block ul{ list-style: none; margin: 0; padding: 0; }
-.menu-block li{
-  display: flex; align-items: baseline; gap: 8px;
-  padding: 9px 0;
-  font-size: 14.5px;
-}
-.menu-block li i{
-  flex: 1; border-bottom: 1px dotted var(--ink-soft); opacity: .45; margin-bottom: 4px;
-}
-.menu-block li b{
-  font-family: var(--display); font-weight: 700; font-size: 15.5px; white-space: nowrap;
-}
-.menu-block li b.b--text{
-  font-family: var(--sans); font-weight: 400; font-size: 11.5px;
-  letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft);
+.hero__cta:hover{ opacity: .6; }
+
+/* =========================================================
+   Shared section chrome
+   ========================================================= */
+main{ position: relative; z-index: 1; }
+
+section{
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 120px var(--gutter) 40px;
+  text-align: center;
 }
 
-/* ============ Contact buttons, matching the PDF's phone / instagram line ============ */
-.buttons{
-  display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;
-  margin-top: 44px;
+.menu__ornament{
+  display: block;
+  font-size: 22px;
+  color: var(--accent);
+  margin-bottom: 14px;
 }
-.btn{
-  display: inline-flex; align-items: center; gap: 9px;
-  text-decoration: none; color: var(--ink);
+.menu__title{
+  font-size: clamp(38px, 6vw, 56px);
+  margin-bottom: 56px;
+}
+
+.reveal{
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+.reveal.is-visible{ opacity: 1; transform: translateY(0); }
+
+/* =========================================================
+   Menu / services
+   ========================================================= */
+.menu__grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  text-align: left;
+}
+.menu__group h3{
+  font-size: 13px;
+  font-family: var(--sans);
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 22px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.menu__list{ list-style: none; margin: 0; padding: 0; }
+.menu__list li{
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 11px 0;
+  font-size: 15px;
+}
+.menu__list li span{ white-space: nowrap; }
+.menu__list li i{
+  flex: 1;
+  border-bottom: 1px dotted var(--ink-soft);
+  opacity: .4;
+  margin-bottom: 4px;
+}
+.menu__list li b{
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 16px;
+  white-space: nowrap;
+}
+.menu__list li b.b--text{
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.menu__note{
+  margin-top: 48px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+@media (max-width: 640px){
+  .menu__grid{ grid-template-columns: 1fr; gap: 44px; }
+}
+
+/* =========================================================
+   Contact
+   ========================================================= */
+.contact__lede{
+  margin: -32px 0 48px;
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+.contact__grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.contact__card{
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 36px 20px;
+  transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+.contact__card:hover, .contact__card:focus-visible{
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 14px 28px -18px rgba(43,41,37,0.35);
+}
+.contact__icon{ width: 26px; height: 26px; color: var(--accent); }
+.contact__label{
+  font-size: 12px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.contact__value{ font-family: var(--display); font-size: 17px; }
+
+@media (max-width: 640px){
+  .contact__grid{ grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   Resume
+   ========================================================= */
+.resume__badge{
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent-soft);
+  border-radius: 999px;
+  padding: 7px 18px;
+  margin-bottom: 40px;
+}
+.resume__bio{
+  max-width: var(--measure);
+  margin: 0 auto 64px;
+  font-size: 16px;
+  color: var(--ink-soft);
+  text-align: left;
+}
+.resume__grid{
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 64px;
+  text-align: left;
+}
+.resume__col h3{
+  font-size: 13px;
+  font-family: var(--sans);
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.resume__gap{ margin-top: 48px; }
+
+.timeline{ list-style: none; margin: 0; padding: 0; }
+.timeline li{
+  position: relative;
+  padding: 0 0 28px 22px;
+  border-left: 1px solid var(--line);
+}
+.timeline li::before{
+  content: '';
+  position: absolute; left: -4px; top: 4px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent);
+}
+.timeline li:last-child{ padding-bottom: 0; }
+.timeline__role{ margin: 0; font-weight: 500; font-size: 15px; }
+.timeline__org{ margin: 3px 0 0; font-size: 13px; color: var(--accent); }
+.timeline__desc{ margin: 6px 0 0; font-size: 13.5px; color: var(--ink-soft); }
+
+.skills{ list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.skills li{
+  font-size: 12.5px;
+  padding: 8px 14px;
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 999px;
-  padding: 12px 22px;
-  font-size: 13.5px;
-  letter-spacing: .02em;
-  transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease;
-}
-.btn svg{ width: 16px; height: 16px; color: var(--accent); flex-shrink: 0; }
-.btn:hover, .btn:focus-visible{
-  border-color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px -14px rgba(43,41,37,0.4);
-}
-
-/* ============ Divider between menu and résumé ============ */
-.divider{
-  text-align: center; color: var(--accent); font-size: 20px;
-  margin: 70px 0 50px;
-}
-
-/* ============ Résumé ============ */
-.resume h2{ font-size: clamp(30px, 6vw, 38px); text-align: center; margin-bottom: 8px; }
-.resume__badge{
-  display: block; width: fit-content; margin: 18px auto 40px;
-  font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--accent); border: 1px solid var(--accent-soft); border-radius: 999px;
-  padding: 7px 16px;
-}
-.resume__bio{ font-size: 15px; color: var(--ink-soft); margin: 0 0 46px; }
-
-.resume h3{
-  font-family: var(--sans); font-weight: 500; font-size: 12.5px;
-  letter-spacing: .18em; text-transform: uppercase; color: var(--accent);
-  margin: 0 0 18px; padding-bottom: 10px; border-bottom: 1px solid var(--line);
-}
-.resume__gap{ margin-top: 40px; }
-
-.timeline{ list-style: none; margin: 0 0 8px; padding: 0; }
-.timeline li{ position: relative; padding: 0 0 24px 20px; border-left: 1px solid var(--line); }
-.timeline li::before{
-  content: ''; position: absolute; left: -4px; top: 4px;
-  width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
-}
-.timeline li:last-child{ padding-bottom: 0; }
-.timeline__role{ margin: 0; font-weight: 500; font-size: 14.5px; }
-.timeline__org{ margin: 3px 0 0; font-size: 12.5px; color: var(--accent); }
-.timeline__desc{ margin: 6px 0 0; font-size: 13px; color: var(--ink-soft); }
-
-.skills{ list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 9px; }
-.skills li{
-  font-size: 12px; padding: 7px 13px;
-  background: var(--paper); border: 1px solid var(--line); border-radius: 999px;
   color: var(--ink-soft);
 }
 
-/* ============ Footer ============ */
-.foot{ text-align: center; margin-top: 80px; }
-.foot__mark{
-  font-family: var(--display); font-weight: 700; letter-spacing: .3em;
-  font-size: 13px; margin: 0 0 10px;
+@media (max-width: 720px){
+  .resume__grid{ grid-template-columns: 1fr; gap: 48px; }
 }
-.foot__meta{ font-size: 11.5px; color: var(--ink-soft); margin: 0; }
+
+/* =========================================================
+   Footer
+   ========================================================= */
+.footer{
+  text-align: center;
+  padding: 80px var(--gutter) 48px;
+  border-top: 1px solid var(--line);
+  margin-top: 60px;
+}
+.footer__mark{
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: .3em;
+  font-size: 15px;
+  margin: 0 0 20px;
+}
+.footer__links{
+  display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+  font-size: 13px; letter-spacing: .05em;
+  margin-bottom: 18px;
+}
+.footer__links a{ text-decoration: none; color: var(--ink-soft); }
+.footer__links a:hover{ color: var(--accent); }
+.footer__meta{ font-size: 12px; color: var(--ink-soft); margin: 0; }
+
+/* =========================================================
+   Accessibility
+   ========================================================= */
+a:focus-visible, .contact__card:focus-visible{
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
 
 @media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior: auto; }
   .vine-path, .vine-leaves path{ animation: none; stroke-dashoffset: 0; opacity: .6; }
+  .reveal{ opacity: 1; transform: none; transition: none; }
 }
+
 </style>
 </head>
 <body>
 
 <div class="grain" aria-hidden="true"></div>
 
-<div class="page">
+<nav class="topnav" id="topnav">
+  <a class="topnav__mark" href="#top">GARDAN</a>
+  <div class="topnav__links">
+    <a href="#servicos">Serviços</a>
+    <a href="#contato">Contato</a>
+    <a href="#curriculo">Currículo</a>
+  </div>
+</nav>
 
-  <div class="vine" aria-hidden="true">
-    <svg viewBox="0 0 220 560" xmlns="http://www.w3.org/2000/svg">
-      <path class="vine-path" d="M40 10 C 10 55, 60 95, 30 145 C 0 195, 55 230, 35 285 C 15 340, 70 375, 45 430 C 20 485, 65 515, 50 555"/>
-      <g class="vine-leaves">
-        <path d="M34 65 C 55 50, 78 55, 88 35 C 72 45, 55 47, 34 65 Z"/>
-        <path d="M28 135 C 5 123, -14 127, -22 105 C -6 117, 10 121, 28 135 Z"/>
-        <path d="M38 205 C 62 193, 84 197, 96 175 C 78 185, 60 189, 38 205 Z"/>
-        <path d="M40 315 C 16 303, -4 307, -14 283 C 2 295, 20 301, 40 315 Z"/>
+<header class="hero" id="top">
+  <div class="hero__vine" aria-hidden="true">
+    <svg viewBox="0 0 220 620" fill="none" xmlns="http://www.w3.org/2000/svg" class="vine-svg">
+      <path class="vine-path" d="M40 10 C 10 60, 60 100, 30 150 C 0 200, 55 240, 35 300 C 15 360, 70 400, 45 460 C 20 520, 65 560, 50 610" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round"/>
+      <g class="vine-leaves" stroke="var(--ink)" stroke-width="1.1" fill="none">
+        <path d="M34 70 C 55 55, 78 60, 88 40 C 72 50, 55 52, 34 70 Z"/>
+        <path d="M28 140 C 5 128, -14 132, -22 110 C -6 122, 10 126, 28 140 Z"/>
+        <path d="M38 210 C 62 198, 84 202, 96 180 C 78 190, 60 194, 38 210 Z"/>
+        <path d="M40 320 C 16 308, -4 312, -14 288 C 2 300, 20 306, 40 320 Z"/>
+        <path d="M52 430 C 76 418, 98 422, 110 400 C 92 410, 74 414, 52 430 Z"/>
+        <path d="M42 520 C 18 508, -2 512, -12 488 C 4 500, 22 506, 42 520 Z"/>
       </g>
     </svg>
   </div>
 
-  <header class="masthead">
-    <h1 class="masthead__mark">GARDAN</h1>
-    <p class="masthead__tagline">Personal Hairstylist</p>
-  </header>
+  <p class="hero__eyebrow">Brasília · Atendimento personalizado</p>
+  <h1 class="hero__mark">GARDAN</h1>
+  <p class="hero__tagline">Personal Hairstylist</p>
+  <p class="hero__lede">Corte e coloração autoral, pensados para cada fio — <span>por Daniel Garcia.</span></p>
+  <a class="hero__cta" href="#contato">Agendar horário ↓</a>
+</header>
 
-  <section class="menu">
-    <h2 class="menu-title">Menu</h2>
+<main>
 
-    <div class="menu-block">
+<section id="servicos" class="menu reveal">
+  <span class="menu__ornament" aria-hidden="true">❧</span>
+  <h2 class="menu__title">Menu</h2>
+
+  <div class="menu__grid">
+    <div class="menu__group">
       <h3>Corte Personalizado</h3>
-      <ul>
+      <ul class="menu__list">
         <li><span>Masculino</span><i></i><b>150</b></li>
         <li><span>Feminino</span><i></i><b>200</b></li>
         <li><span>Modelagem</span><i></i><b>75</b></li>
       </ul>
     </div>
 
-    <div class="menu-block">
+    <div class="menu__group">
       <h3>Cor Personalizada</h3>
-      <ul>
+      <ul class="menu__list">
         <li><span>Retoque de raiz</span><i></i><b>220</b></li>
         <li><span>Mechas castanho</span><i></i><b>500</b></li>
         <li><span>Mechas loiro</span><i></i><b>600</b></li>
@@ -246,81 +486,136 @@ h1, h2, h3{ font-family: var(--display); font-weight: 700; margin: 0; }
         <li><span>Correção de cor</span><i></i><b class="b--text">a combinar</b></li>
       </ul>
     </div>
+  </div>
+  <p class="menu__note">Valores de referência. Consultas de coloração são sempre avaliadas antes do orçamento final.</p>
+</section>
 
-    <div class="buttons">
-      <a class="btn" href="tel:+5561981369484">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1v3.5c0 .6-.4 1-1 1C10.6 21.1 2.9 13.4 2.9 3.9c0-.6.4-1 1-1H7.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1L6.6 10.8Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        (61) 9 8136-9484
-      </a>
-      <a class="btn" href="https://instagram.com/jdanielhair" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
-        @jdanielhair
-      </a>
+<section id="contato" class="contact reveal">
+  <span class="menu__ornament" aria-hidden="true">❧</span>
+  <h2 class="menu__title">Vamos conversar</h2>
+  <p class="contact__lede">Toque em uma opção abaixo — você será direcionado direto para o app.</p>
+
+  <div class="contact__grid">
+    <a class="contact__card" href="https://wa.me/5561981369484" target="_blank" rel="noopener">
+      <svg class="contact__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.5 11.5a8.5 8.5 0 1 1-15.9-4.2L3 20l12.9-1.5A8.5 8.5 0 0 1 20.5 11.5Z" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 8.7c.2-.5.5-.5.8-.5h.6c.2 0 .4 0 .6.4.2.4.6 1.5.7 1.6.1.1.1.3 0 .5-.1.2-.2.3-.4.5-.2.2-.4.4-.2.7.2.4.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1.2.1 1.5.7 1.8.8.3.1.4.2.5.3.1.2.1.9-.2 1.7-.3.8-1.6 1.5-2.2 1.6-.6.1-1.2.2-3.9-1.1-3.3-1.6-5.3-5-5.5-5.2-.2-.2-1.3-1.7-1.3-3.3 0-1.6.8-2.3 1.1-2.7Z"/></svg>
+      <span class="contact__label">WhatsApp</span>
+      <span class="contact__value">(61) 9 8136-9484</span>
+    </a>
+
+    <a class="contact__card" href="tel:+5561981369484">
+      <svg class="contact__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1v3.5c0 .6-.4 1-1 1C10.6 21.1 2.9 13.4 2.9 3.9c0-.6.4-1 1-1H7.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1L6.6 10.8Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="contact__label">Telefone</span>
+      <span class="contact__value">(61) 9 8136-9484</span>
+    </a>
+
+    <a class="contact__card" href="https://instagram.com/jdanielhair" target="_blank" rel="noopener">
+      <svg class="contact__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+      <span class="contact__label">Instagram</span>
+      <span class="contact__value">@jdanielhair</span>
+    </a>
+  </div>
+</section>
+
+<section id="curriculo" class="resume reveal">
+  <span class="menu__ornament" aria-hidden="true">❧</span>
+  <h2 class="menu__title">Currículo</h2>
+  <span class="resume__badge">Aberto a novas oportunidades</span>
+
+  <p class="resume__bio">
+    Daniel Garcia. Atuo entre dois mundos que se completam: a precisão técnica de rotinas administrativas
+    e documentais, e a sensibilidade estética do trabalho como colorista. Tenho facilidade para organizar
+    processos, aprender sistemas novos e lidar diretamente com o público — seja em um balcão de despachante,
+    seja na cadeira do salão.
+  </p>
+
+  <div class="resume__grid">
+    <div class="resume__col">
+      <h3>Experiência</h3>
+      <ol class="timeline">
+        <li>
+          <p class="timeline__role">Assistente de Despachante</p>
+          <p class="timeline__org">Grupo Jorlan · desde 05/2026</p>
+          <p class="timeline__desc">Documentação e processos de transferência veicular, rotinas de DETRAN e cartório.</p>
+        </li>
+        <li>
+          <p class="timeline__role">Cabeleireiro &amp; Colorista</p>
+          <p class="timeline__org">Atuação autônoma · Gardan</p>
+          <p class="timeline__desc">Corte e coloração personalizada em atendimento direto ao cliente.</p>
+        </li>
+        <li>
+          <p class="timeline__role">Suporte administrativo em licitações</p>
+          <p class="timeline__org">Ágora Licitações</p>
+          <p class="timeline__desc">Processos de licitação pública via Comprasnet e PNCP.</p>
+        </li>
+        <li>
+          <p class="timeline__role">Exército Brasileiro</p>
+          <p class="timeline__org">DFPC</p>
+          <p class="timeline__desc">Rotinas administrativas em ambiente militar.</p>
+        </li>
+      </ol>
     </div>
-  </section>
 
-  <p class="divider" aria-hidden="true">❧</p>
+    <div class="resume__col">
+      <h3>Formação</h3>
+      <ol class="timeline">
+        <li>
+          <p class="timeline__role">Gestão Comercial</p>
+          <p class="timeline__org">UCB</p>
+        </li>
+      </ol>
 
-  <section class="resume">
-    <h2>Currículo</h2>
-    <span class="resume__badge">Aberto a novas oportunidades</span>
+      <h3 class="resume__gap">Competências</h3>
+      <ul class="skills">
+        <li>Colorimetria capilar (Igora Royal &amp; Wella)</li>
+        <li>Atendimento e organização de agenda</li>
+        <li>Rotinas de DETRAN e cartório</li>
+        <li>Licitações públicas (Comprasnet, PNCP)</li>
+        <li>Excel avançado e controle de processos</li>
+        <li>Automação de rotinas (Python)</li>
+        <li>Inglês — leitura e compreensão avançadas</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-    <p class="resume__bio">
-      Daniel Garcia. Atuo entre dois mundos que se completam: a precisão técnica de rotinas
-      administrativas e documentais, e a sensibilidade estética do trabalho como colorista.
-      Tenho facilidade para organizar processos, aprender sistemas novos e lidar diretamente
-      com o público — seja em um balcão de despachante, seja na cadeira do salão.
-    </p>
+</main>
 
-    <h3>Experiência</h3>
-    <ol class="timeline">
-      <li>
-        <p class="timeline__role">Assistente de Despachante</p>
-        <p class="timeline__org">Grupo Jorlan · desde 05/2026</p>
-        <p class="timeline__desc">Documentação e processos de transferência veicular, rotinas de DETRAN e cartório.</p>
-      </li>
-      <li>
-        <p class="timeline__role">Cabeleireiro &amp; Colorista</p>
-        <p class="timeline__org">Atuação autônoma · Gardan</p>
-        <p class="timeline__desc">Corte e coloração personalizada em atendimento direto ao cliente.</p>
-      </li>
-      <li>
-        <p class="timeline__role">Suporte administrativo em licitações</p>
-        <p class="timeline__org">Ágora Licitações</p>
-        <p class="timeline__desc">Processos de licitação pública via Comprasnet e PNCP.</p>
-      </li>
-      <li>
-        <p class="timeline__role">Exército Brasileiro</p>
-        <p class="timeline__org">DFPC</p>
-        <p class="timeline__desc">Rotinas administrativas em ambiente militar.</p>
-      </li>
-    </ol>
+<footer class="footer">
+  <p class="footer__mark">GARDAN</p>
+  <div class="footer__links">
+    <a href="https://wa.me/5561981369484" target="_blank" rel="noopener">WhatsApp</a>
+    <a href="tel:+5561981369484">(61) 9 8136-9484</a>
+    <a href="https://instagram.com/jdanielhair" target="_blank" rel="noopener">@jdanielhair</a>
+  </div>
+  <p class="footer__meta">Brasília, DF · <span id="year"></span></p>
+</footer>
 
-    <h3 class="resume__gap">Formação</h3>
-    <ol class="timeline">
-      <li>
-        <p class="timeline__role">Gestão Comercial</p>
-        <p class="timeline__org">UCB</p>
-      </li>
-    </ol>
+<script>
+// Nav background on scroll
+const topnav = document.getElementById('topnav');
+const onScroll = () => {
+  if (window.scrollY > 40) topnav.classList.add('is-scrolled');
+  else topnav.classList.remove('is-scrolled');
+};
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
 
-    <h3 class="resume__gap">Competências</h3>
-    <ul class="skills">
-      <li>Colorimetria capilar (Igora Royal &amp; Wella)</li>
-      <li>Atendimento e organização de agenda</li>
-      <li>Rotinas de DETRAN e cartório</li>
-      <li>Licitações públicas (Comprasnet, PNCP)</li>
-      <li>Excel avançado e controle de processos</li>
-      <li>Automação de rotinas (Python)</li>
-      <li>Inglês — leitura e compreensão avançadas</li>
-    </ul>
-  </section>
+// Reveal sections on scroll
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+revealEls.forEach((el) => io.observe(el));
 
-  <footer class="foot">
-    <p class="foot__mark">GARDAN</p>
-    <p class="foot__meta">Brasília, DF</p>
-  </footer>
+// Footer year
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-</div>
+</script>
 </body>
 </html>
