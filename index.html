@@ -10,10 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* =========================================================
-   GARDAN — Personal Hairstylist
-   Design tokens
-   ========================================================= */
 :root{
   --bg: #EBE7E5;
   --paper: #F5F2EE;
@@ -51,7 +47,6 @@ h1, h2, h3{
   margin: 0;
 }
 
-/* subtle paper grain so the flat taupe doesn't feel like a template default */
 .grain{
   position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .5;
   background-image: radial-gradient(rgba(43,41,37,0.05) 1px, transparent 1px);
@@ -59,9 +54,6 @@ h1, h2, h3{
   mix-blend-mode: multiply;
 }
 
-/* =========================================================
-   Nav
-   ========================================================= */
 .topnav{
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
   display: flex; align-items: center; justify-content: space-between;
@@ -102,9 +94,6 @@ h1, h2, h3{
 .topnav__links a:focus-visible::after{ right: 0; }
 @media (max-width: 560px){ .topnav__links{ display: none; } }
 
-/* =========================================================
-   Hero
-   ========================================================= */
 .hero{
   position: relative;
   min-height: 100svh;
@@ -127,16 +116,18 @@ h1, h2, h3{
   stroke-dashoffset: 900;
   animation: draw 2.6s 0.3s ease forwards;
 }
-.vine-leaves path{
+.vine-leaves > g{
   opacity: 0;
   animation: fadeLeaf 1s ease forwards;
 }
-.vine-leaves path:nth-child(1){ animation-delay: .7s; }
-.vine-leaves path:nth-child(2){ animation-delay: 1.05s; }
-.vine-leaves path:nth-child(3){ animation-delay: 1.4s; }
-.vine-leaves path:nth-child(4){ animation-delay: 1.75s; }
-.vine-leaves path:nth-child(5){ animation-delay: 2.1s; }
-.vine-leaves path:nth-child(6){ animation-delay: 2.45s; }
+.vine-leaves path{ stroke: var(--ink); stroke-width: 1.05; fill: none; }
+.vine-leaves .vein{ stroke-width: .55; opacity: .75; }
+.vine-leaves > g:nth-child(1){ animation-delay: .7s; }
+.vine-leaves > g:nth-child(2){ animation-delay: 1.05s; }
+.vine-leaves > g:nth-child(3){ animation-delay: 1.4s; }
+.vine-leaves > g:nth-child(4){ animation-delay: 1.75s; }
+.vine-leaves > g:nth-child(5){ animation-delay: 2.1s; }
+.vine-leaves > g:nth-child(6){ animation-delay: 2.45s; }
 
 @keyframes draw{ to{ stroke-dashoffset: 0; } }
 @keyframes fadeLeaf{ to{ opacity: .6; } }
@@ -184,9 +175,6 @@ h1, h2, h3{
 }
 .hero__cta:hover{ opacity: .6; }
 
-/* =========================================================
-   Shared section chrome
-   ========================================================= */
 main{ position: relative; z-index: 1; }
 
 section{
@@ -197,10 +185,14 @@ section{
 }
 
 .menu__ornament{
-  display: block;
-  font-size: 22px;
-  color: var(--accent);
-  margin-bottom: 14px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.menu__ornament svg{
+  width: 26px;
+  height: 26px;
+  opacity: .75;
 }
 .menu__title{
   font-size: clamp(38px, 6vw, 56px);
@@ -214,9 +206,6 @@ section{
 }
 .reveal.is-visible{ opacity: 1; transform: translateY(0); }
 
-/* =========================================================
-   Menu / services
-   ========================================================= */
 .menu__grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -272,9 +261,6 @@ section{
   .menu__grid{ grid-template-columns: 1fr; gap: 44px; }
 }
 
-/* =========================================================
-   Contact
-   ========================================================= */
 .contact__lede{
   margin: -32px 0 48px;
   color: var(--ink-soft);
@@ -307,15 +293,16 @@ section{
   text-transform: uppercase;
   color: var(--ink-soft);
 }
-.contact__value{ font-family: var(--display); font-size: 17px; }
+.contact__value{
+  font-family: var(--display);
+  font-size: 17px;
+  font-variant-numeric: lining-nums;
+}
 
 @media (max-width: 640px){
   .contact__grid{ grid-template-columns: 1fr; }
 }
 
-/* =========================================================
-   Resume
-   ========================================================= */
 .resume__badge{
   display: inline-block;
   font-size: 11px;
@@ -370,7 +357,12 @@ section{
 .timeline__org{ margin: 3px 0 0; font-size: 13px; color: var(--accent); }
 .timeline__desc{ margin: 6px 0 0; font-size: 13.5px; color: var(--ink-soft); }
 
-.skills{ list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.skills{
+  list-style: none; margin: 0; padding: 0;
+  display: inline-grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 9px 10px;
+}
 .skills li{
   font-size: 12.5px;
   padding: 8px 14px;
@@ -384,9 +376,6 @@ section{
   .resume__grid{ grid-template-columns: 1fr; gap: 48px; }
 }
 
-/* =========================================================
-   Footer
-   ========================================================= */
 .footer{
   text-align: center;
   padding: 80px var(--gutter) 48px;
@@ -409,9 +398,6 @@ section{
 .footer__links a:hover{ color: var(--accent); }
 .footer__meta{ font-size: 12px; color: var(--ink-soft); margin: 0; }
 
-/* =========================================================
-   Accessibility
-   ========================================================= */
 a:focus-visible, .contact__card:focus-visible{
   outline: 2px solid var(--accent);
   outline-offset: 3px;
@@ -419,7 +405,7 @@ a:focus-visible, .contact__card:focus-visible{
 
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior: auto; }
-  .vine-path, .vine-leaves path{ animation: none; stroke-dashoffset: 0; opacity: .6; }
+  .vine-path, .vine-leaves > g{ animation: none; stroke-dashoffset: 0; opacity: .6; }
   .reveal{ opacity: 1; transform: none; transition: none; }
 }
 
@@ -442,28 +428,58 @@ a:focus-visible, .contact__card:focus-visible{
   <div class="hero__vine" aria-hidden="true">
     <svg viewBox="0 0 220 620" fill="none" xmlns="http://www.w3.org/2000/svg" class="vine-svg">
       <path class="vine-path" d="M40 10 C 10 60, 60 100, 30 150 C 0 200, 55 240, 35 300 C 15 360, 70 400, 45 460 C 20 520, 65 560, 50 610" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round"/>
-      <g class="vine-leaves" stroke="var(--ink)" stroke-width="1.1" fill="none">
-        <path d="M34 70 C 55 55, 78 60, 88 40 C 72 50, 55 52, 34 70 Z"/>
-        <path d="M28 140 C 5 128, -14 132, -22 110 C -6 122, 10 126, 28 140 Z"/>
-        <path d="M38 210 C 62 198, 84 202, 96 180 C 78 190, 60 194, 38 210 Z"/>
-        <path d="M40 320 C 16 308, -4 312, -14 288 C 2 300, 20 306, 40 320 Z"/>
-        <path d="M52 430 C 76 418, 98 422, 110 400 C 92 410, 74 414, 52 430 Z"/>
-        <path d="M42 520 C 18 508, -2 512, -12 488 C 4 500, 22 506, 42 520 Z"/>
+      <g class="vine-leaves" fill="none">
+        <g transform="translate(32,68) rotate(55)">
+          <path d="M0,0 C -7,-9 -7,-22 0,-32 C 7,-22 7,-9 0,0 Z" transform="rotate(-14)"/>
+          <path class="vein" d="M0,-3 L0,-27" transform="rotate(-14)"/>
+          <path d="M0,0 C -7,-9 -7,-22 0,-32 C 7,-22 7,-9 0,0 Z" transform="rotate(16)"/>
+          <path class="vein" d="M0,-3 L0,-27" transform="rotate(16)"/>
+        </g>
+        <g transform="translate(24,138) rotate(-58)">
+          <path d="M0,0 C -6,-8 -6,-19 0,-27 C 6,-19 6,-8 0,0 Z" transform="rotate(-12)"/>
+          <path class="vein" d="M0,-2.5 L0,-23" transform="rotate(-12)"/>
+          <path d="M0,0 C -6,-8 -6,-19 0,-27 C 6,-19 6,-8 0,0 Z" transform="rotate(18)"/>
+          <path class="vein" d="M0,-2.5 L0,-23" transform="rotate(18)"/>
+        </g>
+        <g transform="translate(36,208) rotate(52)">
+          <path d="M0,0 C -7,-9 -7,-22 0,-32 C 7,-22 7,-9 0,0 Z" transform="rotate(-16)"/>
+          <path class="vein" d="M0,-3 L0,-27" transform="rotate(-16)"/>
+          <path d="M0,0 C -7,-9 -7,-22 0,-32 C 7,-22 7,-9 0,0 Z" transform="rotate(14)"/>
+          <path class="vein" d="M0,-3 L0,-27" transform="rotate(14)"/>
+        </g>
+        <g transform="translate(20,318) rotate(-54)">
+          <path d="M0,0 C -6,-8 -6,-19 0,-27 C 6,-19 6,-8 0,0 Z" transform="rotate(-14)"/>
+          <path class="vein" d="M0,-2.5 L0,-23" transform="rotate(-14)"/>
+          <path d="M0,0 C -6,-8 -6,-19 0,-27 C 6,-19 6,-8 0,0 Z" transform="rotate(16)"/>
+          <path class="vein" d="M0,-2.5 L0,-23" transform="rotate(16)"/>
+        </g>
+        <g transform="translate(48,428) rotate(58)">
+          <path d="M0,0 C -7,-9 -7,-22 0,-32 C 7,-22 7,-9 0,0 Z" transform="rotate(-15)"/>
+          <path class="vein" d="M0,-3 L0,-27" transform="rotate(-15)"/>
+          <path d="M0,0 C -7,-9 -7,-22 0,-32 C 7,-22 7,-9 0,0 Z" transform="rotate(15)"/>
+          <path class="vein" d="M0,-3 L0,-27" transform="rotate(15)"/>
+        </g>
+        <g transform="translate(18,518) rotate(-56)">
+          <path d="M0,0 C -6,-8 -6,-19 0,-27 C 6,-19 6,-8 0,0 Z" transform="rotate(-13)"/>
+          <path class="vein" d="M0,-2.5 L0,-23" transform="rotate(-13)"/>
+          <path d="M0,0 C -6,-8 -6,-19 0,-27 C 6,-19 6,-8 0,0 Z" transform="rotate(17)"/>
+          <path class="vein" d="M0,-2.5 L0,-23" transform="rotate(17)"/>
+        </g>
       </g>
     </svg>
   </div>
 
-  <p class="hero__eyebrow">Brasília · Atendimento personalizado</p>
+  <p class="hero__eyebrow">Brasília · Atendimento personalizado à domicílio</p>
   <h1 class="hero__mark">GARDAN</h1>
   <p class="hero__tagline">Personal Hairstylist</p>
-  <p class="hero__lede">Corte e coloração autoral, pensados para cada fio — <span>por Daniel Garcia.</span></p>
+  <p class="hero__lede">Corte e coloração autoral — <span>por Daniel Garcia.</span></p>
   <a class="hero__cta" href="#contato">Agendar horário ↓</a>
 </header>
 
 <main>
 
 <section id="servicos" class="menu reveal">
-  <span class="menu__ornament" aria-hidden="true">❧</span>
+  <span class="menu__ornament" aria-hidden="true"><svg viewBox="-102.4 -102.4 1228.80 1228.80" xmlns="http://www.w3.org/2000/svg"><path d="M973.312 637.44c-1.536-0.512-3.072-1.024-4.608-0.512-99.84 14.848-209.408-2.048-302.592 44.032-22.016 10.752-38.912 27.136-55.808 44.032-17.92 17.92-36.352 36.352-52.224 56.32-14.336 17.92-25.6 37.376-37.888 56.32-9.728 15.36-19.456 30.72-22.016 48.64-37.376 26.624-74.24 53.76-111.104 80.384-7.68-46.08-9.216-92.672-9.728-139.776 0-10.752 0-20.992-0.512-31.744 2.56 1.536 5.632 2.56 8.704 0.512 95.232-58.368 144.384-165.376 153.088-274.432 4.096-51.712 3.584-108.032-8.704-158.208-11.776-50.176-24.576-99.84-47.104-146.432-30.72-63.488-68.096-123.904-102.4-185.856-2.048-3.584-5.12-4.608-8.192-4.096-2.048 0-4.096 0.512-6.144 2.048-45.056 40.96-72.704 90.112-97.792 144.896-27.648 59.904-50.176 121.344-60.928 186.88-9.728 61.44-9.728 123.904-5.632 185.856 3.072 48.128 12.8 100.352 41.984 139.264 31.232 41.472 71.168 80.896 116.224 107.008 0 13.312 0 27.136 0.512 40.448 0.512 50.176 3.072 99.84 12.288 149.504 1.024 6.656 7.68 7.168 11.776 4.608 1.024 0 2.56-0.512 3.584-1.536 38.4-27.648 76.8-56.32 115.712-83.968 0 2.048 1.024 3.584 2.56 5.12 29.184 28.672 83.968 32.256 122.88 32.256 51.712 0 108.032-7.68 155.648-27.136 54.784-22.528 93.184-66.048 129.024-111.616 34.304-43.52 68.096-98.304 67.584-155.648 1.024-4.608-3.584-7.168-8.192-7.168zM265.216 686.08c-29.696-34.304-41.984-82.944-45.568-127.488-4.608-58.368-5.12-118.272 2.048-176.64 8.192-63.488 27.648-123.904 53.76-181.76 25.088-56.32 51.712-108.544 95.744-151.552 26.624 47.616 54.272 94.72 79.872 142.848 14.336 26.624 27.648 53.248 37.888 81.92 7.168 20.992 11.776 42.496 17.408 64 26.112 97.28 27.136 207.872-11.776 302.08-24.064 59.392-62.464 109.056-117.248 142.848 0 0-0.512 0-0.512 0.512-0.512-43.52-0.512-87.04-0.512-130.048 0-56.32 0.512-112.64 1.536-168.96 44.544-10.24 75.264-45.568 101.376-81.92 6.144-8.704-8.192-16.896-14.336-8.192-22.528 30.72-48.128 61.44-86.016 72.192 1.536-54.272 3.072-108.032 6.144-162.304 0.512-10.752-15.872-10.752-16.896 0-5.12 91.648-7.68 183.296-8.192 274.944h-1.536c-28.672-0.512-47.104-26.112-62.976-46.592-15.872-20.992-30.208-42.496-43.008-65.536-5.12-9.216-19.968-1.024-14.336 8.192 16.384 28.672 34.816 55.808 55.808 81.408 16.896 20.48 36.864 38.4 64.512 38.912h1.536v63.488c0 38.4 0.512 77.312 0.512 115.712-36.864-23.552-66.56-55.296-95.232-88.064z m633.856 108.032c-33.792 41.984-69.12 82.432-120.32 103.424-44.032 17.92-94.208 25.088-141.824 26.112-35.84 0.512-91.136-0.512-118.784-27.136-1.024-1.024-1.536-1.536-2.56-1.536 32.256-22.528 65.024-44.544 98.304-65.024 37.376 20.992 78.848 29.696 121.344 25.088 10.752-1.024 10.752-17.92 0-16.896-36.352 4.096-72.192-2.048-104.448-18.432 57.856-33.28 118.272-61.44 183.296-78.336 10.24-2.56 6.144-18.944-4.608-15.872-25.6 6.656-50.688 14.848-74.752 24.576 1.024-4.608 2.048-9.216 3.072-14.336 1.536-7.68 3.072-15.36 8.704-20.992 7.68-7.68-4.096-19.456-11.776-11.776-13.312 13.824-14.848 36.352-18.432 54.784-69.632 30.208-134.144 70.656-196.608 114.176 5.632-12.288 14.336-24.064 20.992-35.328 12.288-20.992 26.112-40.448 42.496-58.88 31.744-35.328 65.536-73.216 110.592-90.112 86.528-32.256 181.248-21.504 271.36-33.28-2.56 51.712-34.816 100.864-66.048 139.776z" fill="var(--ink)"/></svg></span>
   <h2 class="menu__title">Menu</h2>
 
   <div class="menu__grid">
@@ -487,17 +503,16 @@ a:focus-visible, .contact__card:focus-visible{
       </ul>
     </div>
   </div>
-  <p class="menu__note">Valores de referência. Consultas de coloração são sempre avaliadas antes do orçamento final.</p>
+  <p class="menu__note">Valores de referência. Colorações são sempre avaliadas antes do orçamento final.</p>
 </section>
 
 <section id="contato" class="contact reveal">
-  <span class="menu__ornament" aria-hidden="true">❧</span>
+  <span class="menu__ornament" aria-hidden="true"><svg viewBox="-102.4 -102.4 1228.80 1228.80" xmlns="http://www.w3.org/2000/svg"><path d="M973.312 637.44c-1.536-0.512-3.072-1.024-4.608-0.512-99.84 14.848-209.408-2.048-302.592 44.032-22.016 10.752-38.912 27.136-55.808 44.032-17.92 17.92-36.352 36.352-52.224 56.32-14.336 17.92-25.6 37.376-37.888 56.32-9.728 15.36-19.456 30.72-22.016 48.64-37.376 26.624-74.24 53.76-111.104 80.384-7.68-46.08-9.216-92.672-9.728-139.776 0-10.752 0-20.992-0.512-31.744 2.56 1.536 5.632 2.56 8.704 0.512 95.232-58.368 144.384-165.376 153.088-274.432 4.096-51.712 3.584-108.032-8.704-158.208-11.776-50.176-24.576-99.84-47.104-146.432-30.72-63.488-68.096-123.904-102.4-185.856-2.048-3.584-5.12-4.608-8.192-4.096-2.048 0-4.096 0.512-6.144 2.048-45.056 40.96-72.704 90.112-97.792 144.896-27.648 59.904-50.176 121.344-60.928 186.88-9.728 61.44-9.728 123.904-5.632 185.856 3.072 48.128 12.8 100.352 41.984 139.264 31.232 41.472 71.168 80.896 116.224 107.008 0 13.312 0 27.136 0.512 40.448 0.512 50.176 3.072 99.84 12.288 149.504 1.024 6.656 7.68 7.168 11.776 4.608 1.024 0 2.56-0.512 3.584-1.536 38.4-27.648 76.8-56.32 115.712-83.968 0 2.048 1.024 3.584 2.56 5.12 29.184 28.672 83.968 32.256 122.88 32.256 51.712 0 108.032-7.68 155.648-27.136 54.784-22.528 93.184-66.048 129.024-111.616 34.304-43.52 68.096-98.304 67.584-155.648 1.024-4.608-3.584-7.168-8.192-7.168zM265.216 686.08c-29.696-34.304-41.984-82.944-45.568-127.488-4.608-58.368-5.12-118.272 2.048-176.64 8.192-63.488 27.648-123.904 53.76-181.76 25.088-56.32 51.712-108.544 95.744-151.552 26.624 47.616 54.272 94.72 79.872 142.848 14.336 26.624 27.648 53.248 37.888 81.92 7.168 20.992 11.776 42.496 17.408 64 26.112 97.28 27.136 207.872-11.776 302.08-24.064 59.392-62.464 109.056-117.248 142.848 0 0-0.512 0-0.512 0.512-0.512-43.52-0.512-87.04-0.512-130.048 0-56.32 0.512-112.64 1.536-168.96 44.544-10.24 75.264-45.568 101.376-81.92 6.144-8.704-8.192-16.896-14.336-8.192-22.528 30.72-48.128 61.44-86.016 72.192 1.536-54.272 3.072-108.032 6.144-162.304 0.512-10.752-15.872-10.752-16.896 0-5.12 91.648-7.68 183.296-8.192 274.944h-1.536c-28.672-0.512-47.104-26.112-62.976-46.592-15.872-20.992-30.208-42.496-43.008-65.536-5.12-9.216-19.968-1.024-14.336 8.192 16.384 28.672 34.816 55.808 55.808 81.408 16.896 20.48 36.864 38.4 64.512 38.912h1.536v63.488c0 38.4 0.512 77.312 0.512 115.712-36.864-23.552-66.56-55.296-95.232-88.064z m633.856 108.032c-33.792 41.984-69.12 82.432-120.32 103.424-44.032 17.92-94.208 25.088-141.824 26.112-35.84 0.512-91.136-0.512-118.784-27.136-1.024-1.024-1.536-1.536-2.56-1.536 32.256-22.528 65.024-44.544 98.304-65.024 37.376 20.992 78.848 29.696 121.344 25.088 10.752-1.024 10.752-17.92 0-16.896-36.352 4.096-72.192-2.048-104.448-18.432 57.856-33.28 118.272-61.44 183.296-78.336 10.24-2.56 6.144-18.944-4.608-15.872-25.6 6.656-50.688 14.848-74.752 24.576 1.024-4.608 2.048-9.216 3.072-14.336 1.536-7.68 3.072-15.36 8.704-20.992 7.68-7.68-4.096-19.456-11.776-11.776-13.312 13.824-14.848 36.352-18.432 54.784-69.632 30.208-134.144 70.656-196.608 114.176 5.632-12.288 14.336-24.064 20.992-35.328 12.288-20.992 26.112-40.448 42.496-58.88 31.744-35.328 65.536-73.216 110.592-90.112 86.528-32.256 181.248-21.504 271.36-33.28-2.56 51.712-34.816 100.864-66.048 139.776z" fill="var(--ink)"/></svg></span>
   <h2 class="menu__title">Vamos conversar</h2>
-  <p class="contact__lede">Toque em uma opção abaixo — você será direcionado direto para o app.</p>
 
   <div class="contact__grid">
     <a class="contact__card" href="https://wa.me/5561981369484" target="_blank" rel="noopener">
-      <svg class="contact__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.5 11.5a8.5 8.5 0 1 1-15.9-4.2L3 20l12.9-1.5A8.5 8.5 0 0 1 20.5 11.5Z" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 8.7c.2-.5.5-.5.8-.5h.6c.2 0 .4 0 .6.4.2.4.6 1.5.7 1.6.1.1.1.3 0 .5-.1.2-.2.3-.4.5-.2.2-.4.4-.2.7.2.4.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1.2.1 1.5.7 1.8.8.3.1.4.2.5.3.1.2.1.9-.2 1.7-.3.8-1.6 1.5-2.2 1.6-.6.1-1.2.2-3.9-1.1-3.3-1.6-5.3-5-5.5-5.2-.2-.2-1.3-1.7-1.3-3.3 0-1.6.8-2.3 1.1-2.7Z"/></svg>
+      <svg class="contact__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3C7.03 3 3 6.58 3 11c0 2.08.87 3.97 2.3 5.4L4 21l4.9-1.28A9.96 9.96 0 0 0 12 19c4.97 0 9-3.58 9-8s-4.03-8-9-8z" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.7 9.3c.2-.5.5-.5.7-.5h.5c.2 0 .3 0 .5.3.2.3.5 1.1.6 1.2.1.1.1.2 0 .4-.1.1-.1.2-.3.4-.1.1-.3.3-.1.5.1.3.7 1 1.4 1.7 1 .8 1.7 1.1 1.9 1.2.2.1.4.1.5-.1.1-.1.5-.6.6-.8.1-.2.3-.1.5-.1.1.1 1.1.5 1.3.6.2.1.3.1.4.2.1.1.1.6-.1 1.2-.2.6-1.1 1.1-1.6 1.2-.5.1-.9.1-2.8-.8-2.4-1.1-3.9-3.6-4-3.8-.1-.1-.9-1.2-.9-2.4 0-1.1.6-1.7.8-1.9z" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span class="contact__label">WhatsApp</span>
       <span class="contact__value">(61) 9 8136-9484</span>
     </a>
@@ -517,15 +532,12 @@ a:focus-visible, .contact__card:focus-visible{
 </section>
 
 <section id="curriculo" class="resume reveal">
-  <span class="menu__ornament" aria-hidden="true">❧</span>
+  
   <h2 class="menu__title">Currículo</h2>
-  <span class="resume__badge">Aberto a novas oportunidades</span>
+  
 
   <p class="resume__bio">
-    Daniel Garcia. Atuo entre dois mundos que se completam: a precisão técnica de rotinas administrativas
-    e documentais, e a sensibilidade estética do trabalho como colorista. Tenho facilidade para organizar
-    processos, aprender sistemas novos e lidar diretamente com o público — seja em um balcão de despachante,
-    seja na cadeira do salão.
+    Eu sou João Daniel Garcia Marques. Cabeleireiro é uma de minhas facetas, pois sigo buscando minha verdadeira vocação!
   </p>
 
   <div class="resume__grid">
@@ -535,22 +547,19 @@ a:focus-visible, .contact__card:focus-visible{
         <li>
           <p class="timeline__role">Assistente de Despachante</p>
           <p class="timeline__org">Grupo Jorlan · desde 05/2026</p>
-          <p class="timeline__desc">Documentação e processos de transferência veicular, rotinas de DETRAN e cartório.</p>
+          
         </li>
         <li>
-          <p class="timeline__role">Cabeleireiro &amp; Colorista</p>
+          <p class="timeline__role">Cabeleireiro</p>
           <p class="timeline__org">Atuação autônoma · Gardan</p>
-          <p class="timeline__desc">Corte e coloração personalizada em atendimento direto ao cliente.</p>
         </li>
         <li>
           <p class="timeline__role">Suporte administrativo em licitações</p>
           <p class="timeline__org">Ágora Licitações</p>
-          <p class="timeline__desc">Processos de licitação pública via Comprasnet e PNCP.</p>
         </li>
         <li>
           <p class="timeline__role">Exército Brasileiro</p>
           <p class="timeline__org">DFPC</p>
-          <p class="timeline__desc">Rotinas administrativas em ambiente militar.</p>
         </li>
       </ol>
     </div>
@@ -566,13 +575,9 @@ a:focus-visible, .contact__card:focus-visible{
 
       <h3 class="resume__gap">Competências</h3>
       <ul class="skills">
-        <li>Colorimetria capilar (Igora Royal &amp; Wella)</li>
-        <li>Atendimento e organização de agenda</li>
-        <li>Rotinas de DETRAN e cartório</li>
-        <li>Licitações públicas (Comprasnet, PNCP)</li>
-        <li>Excel avançado e controle de processos</li>
-        <li>Automação de rotinas (Python)</li>
-        <li>Inglês — leitura e compreensão avançadas</li>
+        <li>Rotinas técnicas e administrativas</li>
+        <li>Pacote Office</li>
+        <li>Inglês - intermediário</li>
       </ul>
     </div>
   </div>
@@ -591,7 +596,6 @@ a:focus-visible, .contact__card:focus-visible{
 </footer>
 
 <script>
-// Nav background on scroll
 const topnav = document.getElementById('topnav');
 const onScroll = () => {
   if (window.scrollY > 40) topnav.classList.add('is-scrolled');
@@ -600,7 +604,6 @@ const onScroll = () => {
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
-// Reveal sections on scroll
 const revealEls = document.querySelectorAll('.reveal');
 const io = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
@@ -612,10 +615,8 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.15 });
 revealEls.forEach((el) => io.observe(el));
 
-// Footer year
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
-
 </script>
 </body>
 </html>
